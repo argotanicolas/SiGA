@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Prediccion de Fertilizantes</title>
+    <title> Sanzar</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1, h4 {
+      margin: 15px 0 4px;
+      font-weight: 400;
+      }
+      h4 {
+      margin: 20px 0 4px;
+      font-weight: 400;
+      }
+      span {
+      color: red;
+      }
+      .small {
+      font-size: 10px;
+      line-height: 18px;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 3px;
+      }
+      form {
+      width: 100%;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 5px #ccc; 
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      vertical-align: middle;
+      }
+      input:hover, textarea:hover, select:hover {
+      outline: none;
+      border: 1px solid #095484;
+      background: #e6eef7;
+      }
+      .title-block select, .title-block input {
+      margin-bottom: 10px;
+      }
+      select {
+      padding: 7px 0;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      background: transparent;
+      }
+      select, table {
+      width: 100%;
+      }
+      option {
+      background: #fff;
+      }
+      .day-visited, .time-visited {
+      position: relative;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      input[type="time"]::-webkit-inner-spin-button {
+      margin: 2px 22px 0 0;
+      }
+      .day-visited i, .time-visited i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      top: 8px;
+      font-size: 20px;
+      }
+      .day-visited i, .time-visited i {
+      right: 5px;
+      z-index: 1;
+      color: #a9a9a9;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 0;
+      z-index: 2;
+      opacity: 0;
+      }
+      .question-answer label {
+      display: block;
+      padding: 0 20px 10px 0;
+      }
+      .question-answer input {
+      width: auto;
+      margin-top: -2px;
+      }
+      th, td {
+      width: 18%;
+      padding: 15px 0;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+      vertical-align: unset;
+      line-height: 18px;
+      font-weight: 400;
+      word-break: break-all;
+      }
+      .first-col {
+      width: 25%;
+      text-align: left;
+      }
+      textarea {
+      width: calc(100% - 6px);
+      }
+      .btn-block {
+      margin-top: 20px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      -webkit-border-radius: 5px; 
+      -moz-border-radius: 5px; 
+      border-radius: 5px; 
+      background-color: #095484;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background-color: #0666a3;
+      }
+      @media (min-width: 568px) {
+      .title-block {
+      display: flex;
+      justify-content: space-between;
+      }
+      .title-block select {
+      width: 30%;
+      margin-bottom: 0;
+      }
+      .title-block input {
+      width: 31%;
+      margin-bottom: 0;
+      }
+      th, td {
+      word-break: keep-all;
+      }
+      }
+    </style>
+  </head>
+  <body>
+    <div >
+      
+        <h1>Prediccion de Fertilizantes- Sanzar</h1>
+        
+     <h1>{{x}}</h1>
+      <!--Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post" id="Home">
+        
+        <h4>Tipo de Cultivo<span>*</span></h4>
+        <select name="crop" id="crop" >
+            <option value=0>Barley</option>
+            <option value=1>Cotton</option>
+            <option value=2>Ground Nuts</option>
+            <option value=3>Maize</option>
+            <option value=4>Millets</option>
+            <option value=5>Oil Seeds</option>
+            <option value=6>Paddy</option>
+            <option value=7>Pulses</option>
+            <option value=8>Sugarcane</option>
+            <option value=9>Tobacco</option>
+            <option value=10>Wheat</option>
+        </select>
+        <h4>Tipo de Suelo<span>*</span></h4>
+        <select name="soil" id="soil" >
+            <option value=""></option>
+            <option value=0>Black</option>
+            <option value=1>Clayey</option>
+            <option value=2>Loamy</option>
+            <option value=3>Red</option>
+            <option value=4>Sandy</option>
+        </select>
+<br><br>
+ <label for="nitro" style="font-size:100%;"><b>Nitrogeno:</b></label><br>
+        <input type="number" name="nitro" placeholder="Ingrese el valor" required="required" /><br><br>
+
+ <label for="pota" style="font-size:100%;"><b>Potasio:</b></label><br>
+        <input type="number" name="pota" placeholder="Ingrese el valor" required="required" /><br><br>
+
+        <label for="phos" style="font-size:100%;"><b>Fosforo:</b></label><br>
+        <input type="number" name="phos" placeholder="Ingrese el valor" required="required" /><br><br>
+
+        <label for="temp" style="font-size:100%;"><b>Temperatura[Celsius]:</b></label><br>
+        <input type="number" name="temp" placeholder="Enter the value" required="required" /><br><br>
+
+        <label for="humid" style="font-size:100%;"><b>Humedad [%] :</b></label><br>
+        <input type="number" name="humid" placeholder="Enter the value" required="required" /><br><br>
+
+        <label for="mois" style="font-size:100%;"><b>Humedad del suelo :</b></label><br>
+        <input type="number" name="mois" placeholder="Enter the value" required="required" /><br><br>
+    <input type="submit" >
+    
+    <!--<h4>Fertilizante:</h1>-->
+    <!-- <h1>{{x}}</h1>-->
+     <!-- Main Input For Receiving Query to our ML -->
+    <!--<form action="{{ url_for('predict')}}" method="post" id="Home">-->
+        
+     </form>
+    </div>
+  </body>
+</html>
